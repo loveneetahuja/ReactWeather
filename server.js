@@ -1,18 +1,15 @@
 var express = require('express');
 
 var app = express();
-const PORT = process.env.PORT || 3000;
-
-app.use(function(req, res, next){
-  if(req.headers['x-forward-proto'] == 'http') {
-      next();
-  }else {
-    res.redirect('http//' + req.hostname + req.url);
-  }
-});
+app.set('port',(process.env.PORT || 3000));
 
 app.use(express.static('public'));
 
-app.listen(PORT, function(){
-  console.log('Express is running on port ' + PORT);
+app.get('/', function(request, response){
+  response.render('index');
 });
+
+app.listen(app.get('port'), function(){
+  console.log('React weather is running on port: ', app.get('port'));
+});
+
